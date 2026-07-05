@@ -47,6 +47,9 @@ class UserService:
 
         return user_dict
     
+    def get_all_users(self):
+        return self.db.query(User).all()
+
     def get_by_user_name(self, username: str):
         db = self.db
         query = db.query(User).filter(User.user_name == username)
@@ -89,7 +92,7 @@ class UserService:
             }
         }
 
-    def reset_password(self,  user_data: UserCreate,):
+    def reset_password(self,  user_data: UserCreate):
         db = self.db
 
         user = self.get_by_user_name(user_data.user_name)
