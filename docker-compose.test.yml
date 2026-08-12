@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  
+
   db_test:
     image: mysql:8.0
     container_name: db_test
@@ -11,11 +11,34 @@ services:
       MYSQL_USER: dani
       MYSQL_PASSWORD: pass159pow
       TZ: America/Lima
+      UV_NO_DEV: 0
     ports:
       - "3307:3306"
     volumes:
       - mysql_test_data:/var/lib/mysql
       - ./config/docker/init_test:/docker-entrypoint-initdb.d:z
-  
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  api_test:
+    build:
+      context: .
+      args:
+        INSTALL_DEV: "1"
+    container_name: api_test
+    env_file:
+      - .env.test
+    environment:
+      TZ: America/Lima
+    command: >
+      sh -c "uv run pytest -v"
+    depends_on:
+      db_test:
+        condition: service_healthy
+
 volumes:
   mysql_test_data:

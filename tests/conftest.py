@@ -13,7 +13,7 @@ from routes.dependencies import get_current_user
 from models.user import User
 from datetime import datetime, timezone
 
-SEEDS_FILE = Path(__file__).parent.parent / "docker" / "init" / "002_seeds.sql"
+SEEDS_FILE = Path(__file__).parent.parent / "config" / "docker" / "init_test" / "002_seeds.sql"
 
 @pytest.fixture(scope="session")
 def engine():

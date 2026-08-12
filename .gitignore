@@ -10,3 +10,9 @@ wheels/
 .venv
 .env
 .env.test
+
+# Client build & dependencies
+client/node_modules/
+client/dist/
+client/*.log
+client/.env*.local
