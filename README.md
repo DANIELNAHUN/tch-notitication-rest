@@ -93,7 +93,7 @@ make prod-up
 This brings up:
 
 - `api`  -> FastAPI app on `http://localhost:8000`
-- `db`   -> MySQL 8 on `localhost:3306` (database `not_system`)
+- `db`   -> MySQL 8 on `localhost:3307` (database `not_system`)
 
 Interactive API docs:
 
