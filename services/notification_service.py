@@ -76,6 +76,11 @@ class NotificationRepository:
             db.refresh(noti_dict)
 
             return noti_dict
+    
+    def get_notifications_by_user(self, receiver_id: int):
+        db = self.db
+        return db.query(Notificaciones).filter(Notificaciones.receiver_id == receiver_id, Notificaciones.status == "sent").order_by(Notificaciones.created_at.desc()).all()
+
 
 
         

@@ -1,7 +1,13 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import NotificationView from './views/NotificationView.vue'
+import { ref } from 'vue';
+
+const showLogin = ref(false);
 </script>
 
 <template>
-  <HelloWorld />
+  <nav>
+    <button @click="showLogin = true">Login</button>
+  </nav>
+  <NotificationView/>
 </template>
