@@ -30,7 +30,7 @@ const login = async () => {
         const response = await loginService(username.value, password.value);
         if (response.access_token) {
             localStorage.setItem('token', response.access_token);
-            router.push('/notification');
+            router.push({ name: 'notification' });
         } else {
             alert('Usuario o contraseña incorrectos');
         }
@@ -56,6 +56,12 @@ const login = async () => {
     gap: 10px;
 }
 
+.login-form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .login-form input {
     padding: 10px;
     border: 1px solid #ccc;
@@ -66,12 +72,13 @@ const login = async () => {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: #011e3d;
     color: white;
     cursor: pointer;
 }
 
 .login-form button:hover {
-    background-color: #0069d9;
+    background-color: #001122;
+    transform: scale(1.05);
 }
 </style>

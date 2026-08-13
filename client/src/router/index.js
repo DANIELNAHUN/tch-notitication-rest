@@ -10,7 +10,8 @@ const routes = [
         component: LoginView
     },
     {
-        path: '/notification',
+        path: '/',
+        alias: '/notification',
         name: 'notification',
         component: NotificationView
     }
@@ -19,6 +20,16 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes
+});
+
+router.beforeEach((to) => {
+    const token = localStorage.getItem('token');
+    if (!token && to.name !== 'login') {
+        return { name: 'login' };
+    }
+    if (token && to.name === 'login') {
+        return { name: 'notification' };
+    }
 });
 
 export default router;
