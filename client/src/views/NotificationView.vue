@@ -4,11 +4,12 @@
             <div class="navbar-content">
                 <h2>Mis notificaciones - {{ user.user_name }}</h2>
                 <div class="nav-actions">
-                    <button class="btn">Crear</button>
+                    <button class="btn" @click="openModal">Crear</button>
                     <button class="btn btn-logout" @click="logout">Cerrar Sesión</button>
                 </div>
             </div>
         </nav>
+        <FormNoti v-if="showModal" @close="closeModal" />
 
         <main class="content">
             <ul v-if="notifications.length" class="notifications-list simple">
@@ -35,6 +36,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { notificationService } from '../services/notification';
 import { getMe } from '../services/user';
+import FormNoti from '../components/FormNoti.vue';
 
 const router = useRouter();
 
@@ -43,8 +45,17 @@ const logout = () => {
     router.push('/login');
 };
 
+const openModal = () => {
+    showModal.value = true;
+};
+
+const closeModal = () => {
+    showModal.value = false;
+};
+
 const notifications = ref([]);
 const user = ref({ user_name: '' });
+const showModal = ref(false);
 
 onMounted(async () => {
     try {

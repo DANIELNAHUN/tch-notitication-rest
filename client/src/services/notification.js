@@ -10,3 +10,21 @@ export const notificationService = async (userId) => {
     });
     return response.json();
 };
+
+export const createNotification = async (formData) => {
+    const response = await fetch(`${baseUrl}/api/notifications/notification`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+            sender_id: formData.sender_id,
+            receiver_id: parseInt(formData.receiver_id),
+            subject: formData.subject,
+            message: formData.message,
+            channel: formData.channel,
+        }),
+    });
+    return response.json();
+};

@@ -26,10 +26,10 @@ def get_channels(db: Session = Depends(get_db), current_user: User = Depends(get
     return channels
 
 @router.post("/notification")
-def send_notification(notifiy_data: NotificationCreate, channel: NotificationChannel, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def send_notification(notifiy_data: NotificationCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
 
     notification_repo = NotificationRepository(db)
-    response = notification_repo.send_notification(notifiy_data, current_user, channel)
+    response = notification_repo.send_notification(notifiy_data, current_user)
 
     if not response:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No se pudo enviar la notificación")

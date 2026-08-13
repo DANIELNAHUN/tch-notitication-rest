@@ -34,19 +34,21 @@ class NotificationRepository:
         user = self.db.query(User).filter(User.id_user == user_id).first()
         return user
 
-    def send_notification(self, noti_data: NotificationCreate, creator_user: User, channel:str):
+    def send_notification(self, noti_data: NotificationCreate, creator_user: User):
         db = self.db
 
         if not self.validate_receiver_user(noti_data.receiver_id):
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Usuario receptor inválido: {noti_data.receiver_id}")
 
-        channel = self.get_channel(channel)
+        channel = self.get_channel(noti_data.channel)
 
         if not channel:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Canal de notificación inválido: {channel}")
 
         if channel.channel_name == NotificationChannel.EMAIL:
             noti_data.sender_contact = creator_user.user_name
+            receiver_user = self.validate_receiver_user(noti_data.receiver_id)
+            noti_data.receiver_contact = receiver_user.user_name
             noti = NotificationCreateMail(**noti_data.model_dump())
         elif channel.channel_name in (NotificationChannel.SMS, NotificationChannel.PUSH):
             noti = NotificationCreateNumber(**noti_data.model_dump())
