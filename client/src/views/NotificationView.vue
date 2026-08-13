@@ -19,6 +19,9 @@
                     </div>
                     <p class="message">{{ noti.message }}</p>
                     <div class="card-footer">
+                        <span>
+                            {{ noti.sender_contact }} -> {{ noti.receiver_contact }}
+                        </span>
                         <span class="badge status">{{ noti.status }}</span>
                     </div>
                 </li>

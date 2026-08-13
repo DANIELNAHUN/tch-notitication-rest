@@ -37,3 +37,5 @@ class NotificationCreateNumber(NotificationCreate):
 class NotificationResponse(NotificationBase):
     id_notification: int
     channel: NotificationChannel
+    receiver_contact: str
+    sender_contact: str
