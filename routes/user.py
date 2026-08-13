@@ -61,6 +61,20 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
             detail= "Failed to login"
         )
 
+@router.get("/me")
+def me(current_user: Session = Depends(get_current_user)):
+    try:
+        return {
+            "id_user": current_user.id_user,
+            "user_name": current_user.user_name,
+            "is_active": current_user.is_active
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail= "Failed to get user"
+        )
+
 @router.post("/reset_password")
 def reset_password(user_data:UserCreate, db: Session = Depends(get_db)):
     try:

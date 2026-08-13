@@ -2,7 +2,7 @@
     <div class="page-container">
         <nav class="navbar">
             <div class="navbar-content">
-                <h2>Mis notificaciones</h2>
+                <h2>Mis notificaciones - {{ user.user_name }}</h2>
                 <div class="nav-actions">
                     <button class="btn">Crear</button>
                     <button class="btn btn-logout" @click="logout">Cerrar Sesión</button>
@@ -31,6 +31,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { notificationService } from '../services/notification';
+import { getMe } from '../services/user';
 
 const router = useRouter();
 
@@ -40,9 +41,15 @@ const logout = () => {
 };
 
 const notifications = ref([]);
+const user = ref({ user_name: '' });
 
 onMounted(async () => {
-    notifications.value = await notificationService();
+    try {
+        notifications.value = await notificationService();
+        user.value = await getMe();
+    } catch (error) {
+        console.log(error);
+    }
 });
 </script>
 
