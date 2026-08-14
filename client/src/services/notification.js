@@ -19,7 +19,7 @@ export const createNotification = async (formData) => {
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
-            sender_id: formData.sender_id,
+            sender_id: parseInt(formData.sender_id),
             receiver_id: parseInt(formData.receiver_id),
             subject: formData.subject,
             message: formData.message,

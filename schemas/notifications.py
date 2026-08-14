@@ -21,13 +21,13 @@ class NotificationBase(BaseModel):
     status: NotificationStatus = NotificationStatus.PENDING
     model_config = ConfigDict(from_attributes=True, use_enum_values=True)
 
-class NotificationCreate(NotificationBase):
-    sender_id: int
+class NotificationCreate(NotificationBase):    
     sender_contact: Optional[str] = None
     receiver_contact: Optional[str] = None
     channel: Optional[NotificationChannel] = None
 
 class NotificationCreateMail(NotificationCreate):
+    sender_id: int
     receiver_contact: str
     sender_contact: str
     channel: NotificationChannel = NotificationChannel.EMAIL
@@ -38,6 +38,7 @@ class NotificationCreateMail(NotificationCreate):
         return v
 
 class NotificationCreateNumber(NotificationCreate):
+    sender_id: int
     receiver_contact: str
     sender_contact: str
     channel: NotificationChannel = NotificationChannel.SMS
@@ -48,6 +49,7 @@ class NotificationCreateNumber(NotificationCreate):
         return v
 
 class NotificationCreatePush(NotificationCreate):
+    sender_id: int
     receiver_contact: str
     sender_contact: str
     channel: NotificationChannel = NotificationChannel.PUSH
@@ -59,6 +61,7 @@ class NotificationCreatePush(NotificationCreate):
     
 
 class NotificationResponse(NotificationBase):
+    sender_id: int
     id_notification: int
     channel: NotificationChannel
     receiver_contact: str

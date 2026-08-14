@@ -41,6 +41,7 @@ class NotificationRepository:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Usuario receptor inválido: {noti_data.receiver_id}")
 
         channel = self.get_channel(noti_data.channel)
+        print(noti_data)
 
         if not channel:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Canal de notificación inválido: {channel}")
@@ -49,9 +50,18 @@ class NotificationRepository:
             noti_data.sender_contact = creator_user.user_name
             receiver_user = self.validate_receiver_user(noti_data.receiver_id)
             noti_data.receiver_contact = receiver_user.user_name
-            noti = NotificationCreateMail(**noti_data.model_dump())
+            noti = NotificationCreateMail(
+                sender_id=creator_user.id_user,
+                **noti_data.model_dump()
+            )
         elif channel.channel_name in (NotificationChannel.SMS, NotificationChannel.PUSH):
-            noti = NotificationCreateNumber(**noti_data.model_dump())
+            noti_data.sender_contact = creator_user.user_name
+            receiver_user = self.validate_receiver_user(noti_data.receiver_id)
+            noti_data.receiver_contact = receiver_user.user_name
+            noti = NotificationCreateNumber(
+                sender_id=creator_user.id_user,
+                **noti_data.model_dump()
+            )
         else:
             raise ValueError(f"Canal de notificación inválido: {channel}")
 
