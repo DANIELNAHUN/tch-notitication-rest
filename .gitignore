@@ -16,3 +16,7 @@ client/node_modules/
 client/dist/
 client/*.log
 client/.env*.local
+
+# Coverage
+.coverage
+coverage.xml

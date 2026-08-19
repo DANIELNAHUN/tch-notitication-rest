@@ -55,9 +55,16 @@ jobs:
             done
       - run:
           name: Run tests
-          command: uv run pytest -v
+          command: uv run pytest -v --cov=. --cov-report=xml --cov-report=term
       - store_test_results:
           path: test-results
+      - store_artifacts:
+          path: coverage.xml
+          destination: coverage.xml
+      - coveralls/upload:
+          file: coverage.xml
+          flag-name: python-${CIRCLE_NODE_INDEX}
+          parallel: true
 
 workflows:
   backend:
