@@ -200,3 +200,4 @@ Suggested baseline to add: `ruff` for lint + format, `mypy --strict` for types, 
 - Several routes are declared as `POST` but only read data (`/api/user/users`, `/api/user/login`, `/api/notifications/channels`) — switch to `GET` to follow REST conventions
 - `routes/user.py:21`, `:34` and `routes/notifications.py:20`, `:28` declare `current_user` typed as `Session`; it is actually a `User` model
 - Centralize the duplicated `get_db` function (defined in `config/bd.py`, `routes/user.py`, and `routes/notifications.py`)
+- The frontend is not completely implemented, as it is a work in progress.
