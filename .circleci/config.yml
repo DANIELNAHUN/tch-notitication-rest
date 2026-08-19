@@ -1,0 +1,68 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@2.1
+
+executors:
+  python-executor:
+    docker:
+      - image: cimg/python:3.13
+      - image: cimg/mysql:8.0
+        environment:
+          MYSQL_ROOT_PASSWORD: rootpass159
+          MYSQL_DATABASE: not_system
+          MYSQL_USER: dani
+          MYSQL_PASSWORD: pass159pow
+
+jobs:
+  test:
+    executor: python-executor
+    working_directory: ~/project
+    resource_class: medium
+    environment:
+      APP_ENV: env.test
+      DB_HOST: 127.0.0.1
+      DB_USER: root
+      DB_PASSWORD: rootpass159
+      DB_PORT: 3306
+      DB_NAME: not_system
+      SECRET_KEY: testingEnv.
+      ALGORITHM: HS256
+    steps:
+      - checkout
+      - run:
+          name: Install uv
+          command: curl -LsSf https://astral.sh/uv/install.sh | sh && echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$BASH_ENV"
+      - restore_cache:
+          keys:
+            - uv-v1-{{ checksum "uv.lock" }}
+            - uv-v1-
+      - run:
+          name: Install dependencies
+          command: uv sync --locked --group dev
+      - save_cache:
+          key: uv-v1-{{ checksum "uv.lock" }}
+          paths:
+            - .venv
+      - run:
+          name: Wait for MySQL
+          command: |
+            for i in $(seq 1 30); do
+              mysqladmin ping -h 127.0.0.1 -uroot -prootpass159 --silent && break
+              echo "Waiting for MySQL... ($i)"
+              sleep 2
+            done
+      - run:
+          name: Run tests
+          command: uv run pytest -v
+      - store_test_results:
+          path: test-results
+
+workflows:
+  backend:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - client/**

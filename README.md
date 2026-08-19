@@ -174,6 +174,9 @@ Suggested baseline to add: `ruff` for lint + format, `mypy --strict` for types, 
 - `db` service: MySQL 8.0, persistent volume `mysql_data`
 - Timezone: `America/Lima`
 - Healthcheck on the DB gates the API startup (`depends_on: condition: service_healthy`)
+- The Frontend for the project is in the folder `client` in this repository. For initial development setup, you can run the following commands:
+    1. `cd client && npm install` (this will install all the dependencies)
+    2. then `npm run dev` (this will start the dev server)
 
 #### In Test Mode
 
