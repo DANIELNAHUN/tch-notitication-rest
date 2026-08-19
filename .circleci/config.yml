@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   python: circleci/python@2.1
-  coveralls: coveralls/coveralls@2.2.5
 
 executors:
   python-executor:
@@ -58,8 +57,9 @@ jobs:
           command: uv run pytest -v --cov=. --cov-report=term
       - store_test_results:
           path: test-results
-      - coveralls/upload:
-          parallel: true
+      - run:
+          name: Upload coverage to Coveralls
+          command: uv run coveralls
 
 workflows:
   backend:
