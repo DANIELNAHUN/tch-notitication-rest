@@ -201,3 +201,8 @@ Suggested baseline to add: `ruff` for lint + format, `mypy --strict` for types, 
 - `routes/user.py:21`, `:34` and `routes/notifications.py:20`, `:28` declare `current_user` typed as `Session`; it is actually a `User` model
 - Centralize the duplicated `get_db` function (defined in `config/bd.py`, `routes/user.py`, and `routes/notifications.py`)
 - The frontend is not completely implemented, as it is a work in progress.
+
+## Badges
+
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/SJRDsYNEpEj4K4DzFvUbqw/XF2i6kzBhZuZpeAQ4GH4hL/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/SJRDsYNEpEj4K4DzFvUbqw/XF2i6kzBhZuZpeAQ4GH4hL/tree/main)
+[![Coverage Status](https://coveralls.io/repos/github/DANIELNAHUN/tch-notitication-rest/badge.svg?branch=main)](https://coveralls.io/github/DANIELNAHUN/tch-notitication-rest?branch=main)
